@@ -1,40 +1,23 @@
-# Ideas
+# Competitive Programming: Trigger → Idea
 
-#### Codeforces: [lestat04](https://codeforces.com/profile/lestat04)
-#### Leetcode: [LestathRiveraD](https://leetcode.com/u/LestathRiveraD/)
+Profiles: [Codeforces (lestat04)](https://codeforces.com/profile/lestat04) · [LeetCode (LestathRiveraD)](https://leetcode.com/u/LestathRiveraD/)
 
-1. Ask yourself how to solve the problem for some sub-problems in terms of the previous one. (Div. 2 1089/B)
 
-2. GCD(array) = GCD(arr[1, k], arr[k + 1, n]) = GCD(all adjacent pairs) (Div. 2 1089/C)
+## Number theory and algebra
 
-    2.1. GCD is associative => use to remove ranges or elements in O(1)
+- Need the GCD of an array split at position `k` → Take the GCD of the two parts: `gcd(a[1..n]) = gcd(gcd(a[1..k]), gcd(a[k+1..n]))`. (Div. 2 1089/C)
+- Need the GCD of an array with at least two elements → The GCD of all adjacent-pair GCDs equals the array GCD. (Div. 2 1089/C)
+- Need the GCD after removing an element or a contiguous range → Use associativity to combine the GCDs of the remaining prefix and suffix; precompute prefix and suffix GCDs for O(1) queries. (Div. 2 1089/C)
+- An argument uses `gcd(a, b) = gcd(lcm(a, b), b)` → Check it before applying it: the identity is false in general (`a = 6, b = 4` gives `2 ≠ 4`). For positive `a` and `b`, the right side is `b`. (Div. 2 1089/C)
+- Scheduling events overlap at times that are multiples of several periods → Count overlaps with inclusion–exclusion; use LCMs to describe shared multiples. (Educational 188/C)
+- XOR expressions repeatedly contain the same term → Cancel it using `x ^ x = 0`. For `b_i = a_i ^ a_1`, `b_i ^ b_2 = a_i ^ a_2` for `i ≥ 3`; the shared `a_1` disappears. (Div. 4 1090/E)
 
-3. GCD(a, b) = GCD(LCM(a, b), b) (Div. 2 1089/C)
+## Arrays and range queries
 
-    3.1 Just memorize this
+- A sliding window's inner loop looks quadratic → Check whether both pointers only move forward; with O(1) work per move, at most `2n` moves give amortized O(n) time. An early break alone does not establish this bound. (Div. 2 1093/B)
+- A sliding window needs positions for updates or removals → Store indices instead of values so the element's position remains available. (LeetCode 239, Sliding Window Maximum)
+- Static array, associative and idempotent range operation → Build a sparse table in O(n log n); answer a range query in O(1) using two possibly overlapping blocks. (LeetCode 239, Sliding Window Maximum; CSES 1647, Static Range Minimum Queries)
+## Graphs and trees
 
-4. For scheduling problems with multiples/divisibility overlaps, consider using Inclusion-exclusion with LCMs (Educational 188/ C)
-
-5. Sliding window with conditional inner loop and early breaks usually runs in amoritzed O(n), not O(n^2) (Div. 2 1093/B)
-
-6. When unsure about a geedy strategy, try adversarial reasoning to justify it (Div. 2 1093/B)
-
-7. The sparse table data structure pre computes in O(n log n) with O(1) queries when querying idempotent, associative operations on a static array (Leetcode 239 / Sliding Window Maximum) (CSES 1647 Min queries)
-
-8. For graph/tree problems, if [each node has a binary state] and [constraints between adjacent nodes] => 2 coloring/bipartiteness (Div. 4 1090/F)
-
-9. For sliding window problems, consider storing index instead of actual elements for better indexing (Leetcode 239 / Sliding Window Maximum)
-
-10. Count leafs of a graph/tree like this:
-    ```
-    vector<int> deg(n, 0);
-    for (edge : graph) 
-        deg(edge.first)++;
-        deg(edge.second)++;
-    ```
-    In general, just count the degree of every node. Then, nodes with degree 1 are leaves. (Div. 2 915/B) 
-
-11. For bit problems, it can be useful to observe the problem in mathematical terms and then try to cancel stuff around. Ex 1090E, take array [a1, a2, a3, ... an] => [(a2 ^ a1), (a3^ a1), ... (an ^ a1)] => [(a3^ a1) ^ (a2 ^ a1)  ... (an ^ a1)^(a2 ^ a1)] = *[a3 ^ a2 ... a^a2]*, so the first n - 2 elements are cancelled (Div. 4 1090E).
-
-12. When leveling an array (making all elements up to position i without increasing the total sum of elements up to i), use the average of all elements up to i (Div. 2 1101/B)
-
+- Adjacent vertices must have opposite values of a binary state → Two-color the graph and check bipartiteness; this also applies to trees. (Div. 4 1090/F)
+- Need to identify leaves in a graph or tree → Count each vertex's degree by incrementing both endpoints of every edge; vertices of degree 1 are leaves. (Div. 2 915/B)
